@@ -14,8 +14,11 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'public_html')));
 
 
-app.get('/api/servers', routes.servers.findAll);
-
+//app.get('/api/servers', routes.servers.findAll);
+app.get('/api/SnapshotServers', routes.SnapshotServers);
+app.get('/', function(req, res) {
+    res.end('hi');
+});
 app.listen(port, function() {
     console.log("Express server listening on port " + port);
 });

@@ -1,10 +1,16 @@
+var zfsGroup = require(__dirname + '/../zfsGroupInfo');
+var zfsFilesystemViews = require(__dirname + '/../zfsFilesystemViews');
+
 module.exports = {
-    servers: {
-        findAll: function(req, res) {
-            var Response = [{
-                asd: 123
-            }];
-            return res.json(Response);
-        },
+    SnapshotServers: function(req, res) {
+        var Setup = zfsFilesystemViews.Snapshot.Servers.List;
+        Setup.server = 'beo';
+        zfsGroup(Setup, function(e, Filesystems) {
+            if (e) {
+                res.code(500);
+                throw e;
+            }
+            return res.json(Filesystems);
+        });
     },
 };
