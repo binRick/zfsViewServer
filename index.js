@@ -14,8 +14,12 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'public_html')));
 
 
-//app.get('/api/servers', routes.servers.findAll);
 app.get('/api/SnapshotServers', routes.SnapshotServers);
+app.get('/api/Server/:server/Pools', routes.serverPools);
+app.get('/api/Server/:server/:pool/Filesystems', routes.serverPoolFilesystems);
+
+
+
 app.get('/', function(req, res) {
     res.end('hi');
 });
