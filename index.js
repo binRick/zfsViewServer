@@ -18,6 +18,7 @@ app.get('/api/SnapshotServers', routes.SnapshotServers);
 app.get('/api/Server/:server/Pools', routes.serverPools);
 app.get('/api/Server/:server/:pool/Filesystems', routes.serverPoolFilesystems);
 app.get('/api/Server/:server/:fs/FilesystemInfo/:fields', routes.serverFilesystemInfo);
+app.get('/api/Server/:server/:fs/FilesystemSnapshots', routes.serverFilesystemSnapshots);
 
 
 

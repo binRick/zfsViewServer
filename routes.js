@@ -2,13 +2,31 @@ var zfsGroup = require(__dirname + '/../zfsGroupInfo');
 var zfsFilesystemViews = require(__dirname + '/../zfsFilesystemViews');
 
 module.exports = {
+    serverFilesystemSnapshots: function(req, res) {
+        var Setup = zfsFilesystemViews.Snapshot.Servers.List;
+        Setup.server = req.params.server;
+        Setup.bin = 'zfs';
+	var fields = req.params.fields;
+	req.params.fs = req.params.fs.replace(/_/g,'/');
+        Setup.args = 'list -H -o name -t snap';
+        Setup.matches = ['^'+req.params.fs+'@'];
+        Setup.field = false;
+        zfsGroup(Setup, function(e, Filesystems) {
+            if (e) {
+                res.code(500);
+                throw e;
+            }
+            console.log(Filesystems, typeof Filesystems);
+            return res.json(Filesystems);
+        });
+    },
     serverFilesystemInfo: function(req, res) {
         var Setup = zfsFilesystemViews.Snapshot.Servers.List;
         Setup.server = req.params.server;
         Setup.bin = 'zfs';
 	var fields = req.params.fields;
-	var fs = req.params.fs.replace(/_/g,'/');
-        Setup.args = 'get -p -H -o value '+fields+' '+fs;
+	req.params.fs = req.params.fs.replace(/_/g,'/');
+        Setup.args = 'get -H -p -o value '+req.params.fields+' '+req.params.fs;
         Setup.matches = [''];
         Setup.field = false;
         zfsGroup(Setup, function(e, Filesystems) {
